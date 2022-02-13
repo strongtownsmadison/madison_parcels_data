@@ -117,7 +117,7 @@ const zoning = {
             layers: ['choropleth-fill']
           });
           document.getElementById('pd').innerHTML = parcels.length
-            ? `<h3>${parcels[0].properties.Address}</h3><p><strong><em>$${(Math.round(parcels[0].properties.taxes_per_sq_foot * 100) / 100).toFixed(2)}</strong> per square foot</em></p>`
+            ? `<h3>${parcels[0].properties.taxes_per_sq_foot.toLocaleString("en-US", {style:"currency", currency:"USD"})}</strong> per square foot</em></p>`
             : `<p>Hover over a parcel!</p>`;
         });
       });
@@ -128,17 +128,17 @@ map.on("click", "choropleth-fill", e => {
   if (parcels.length > 0) {
     // const { state, properties } = parcels[0]
 
-    const taxes_sq_ft = `${parcels[0].properties.taxes_per_sq_foot.toLocaleString()}`
+    const taxes_sq_ft = `${parcels[0].properties.taxes_per_sq_foot.toLocaleString("en-US", {style:"currency", currency:"USD"})}`
 
     new mapboxgl.Popup()
       .setLngLat(e.lngLat)
       .setHTML(`<strong>${parcels[0].properties.Address}</strong> <br> 
-      Total taxes: $${parcels[0].properties.TotalTaxes.toLocaleString()} <br>
+      Total taxes: ${parcels[0].properties.TotalTaxes.toLocaleString("en-US", {style:"currency", currency:"USD"})} <br>
       Taxes per square ft: ${taxes_sq_ft} <br>
       Property Use: ${parcels[0].properties.MostCommonPropertyUse} <br>
       Zoning: ${zoning[parcels[0].properties.MostCommonZoning1]} (${parcels[0].properties.MostCommonZoning1}) <br>
       Property Class: ${parcels[0].properties.MostCommonPropertyClass} <br>
-      `) 
-      .addTo(map); 
+      `)
+      .addTo(map);
   }
 });
