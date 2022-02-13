@@ -74,26 +74,25 @@ const zoning = {
         // ]);
 
         // define layer names
-        const layers = [
-          '0-10',
-          '10-20',
-          '20-50',
-          '50-100',
-          '100-200',
-          '200-500',
-          '500-1000',
-          '1000+'
+       const layers = [
+          '$0',
+          '$0-$0.10',
+          '$0.10-$2.00',
+          '$2.00-$4.00',
+          '$4.00-$6.00',
+          '$6.00-$15.00',
+          '$15.00-$63.00'
         ];
         const colors = [
-          '#FFEDA0',
-          '#FED976',
-          '#FEB24C',
-          '#FD8D3C',
-          '#FC4E2A',
-          '#E31A1C',
-          '#BD0026',
-          '#800026'
+          '#cecaca',
+          '#eef91a',
+          '#f2c936',
+          '#e89c4f',
+          '#d36d64',
+          '#b9467a',
+          '#96228e'
         ];
+
 
         // create legend
         const legend = document.getElementById('legend');
