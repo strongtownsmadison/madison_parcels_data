@@ -54,7 +54,7 @@ const zoning = {
 "HIST-MB": "Marquette Bungalows Historic District",
 "HIST-FS": "First Settlement Historic District"
 }
-	mapboxgl.accessToken = 'pk.eyJ1IjoiZGF0YXJvY2tzIiwiYSI6ImNremtvNDkzaTIwcDYydm4yamF0amFiMmIifQ.F1rByZHul7dtdyK1jmtWsg';
+	mapboxgl.accessToken = 'pk.eyJ1IjoiZGF0YXJvY2tzIiwiYSI6ImNrem9ydW1udTYxd2oyd25reWg3anZxdDMifQ.Q7_-XKRFDIuuZBjVY3azfQ';
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/datarocks/ckzcunvi3000314mvatpef58p', // style URL
@@ -76,12 +76,12 @@ const zoning = {
         // define layer names
        const layers = [
           '$0',
-          '$0-$0.10',
-          '$0.10-$2.00',
-          '$2.00-$4.00',
-          '$4.00-$6.00',
-          '$6.00-$15.00',
-          '$15.00-$63.00'
+          '$0-26,136',
+          '$26,136 - 87,120',
+          '$87,120-174,240',
+          '$174,240-261,360',
+          '$261,360-653,400',
+          '$653,400-2,744,280'
         ];
         const colors = [
           '#cecaca',
@@ -117,8 +117,10 @@ const zoning = {
             layers: ['choropleth-fill']
           });
           document.getElementById('pd').innerHTML = parcels.length
-            ? `<h3>${parcels[0].properties.taxes_per_sq_foot.toLocaleString("en-US", {style:"currency", currency:"USD"})}</strong> per square foot</em></p>`
-            : `<p>Hover over a parcel!</p>`;
+            ? `<p>${parcels[0].properties.Address}</p>
+                <p><strong>${(parcels[0].properties.taxes_per_sq_foot*43560).toLocaleString("en-US", {style:"currency", currency:"USD"})}</strong> per acre</em></p>
+                <p>${(parcels[0].properties.percentile/100).toLocaleString("en-US", {style:"percent",  minimumFractionDigits: 1, maximumFractionDigits: 2})} of parcels contribute fewer dollars per acre.</p>`
+            : `<p>Hover over a parcel, click for more details</p>`;
         });
       });
 
@@ -128,13 +130,13 @@ map.on("click", "choropleth-fill", e => {
   if (parcels.length > 0) {
     // const { state, properties } = parcels[0]
 
-    const taxes_sq_ft = `${parcels[0].properties.taxes_per_sq_foot.toLocaleString("en-US", {style:"currency", currency:"USD"})}`
+    const taxes_acre = `${(parcels[0].properties.taxes_per_sq_foot*43560).toLocaleString("en-US", {style:"currency", currency:"USD"})}`
 
     new mapboxgl.Popup()
       .setLngLat(e.lngLat)
       .setHTML(`<strong>${parcels[0].properties.Address}</strong> <br> 
       Total taxes: ${parcels[0].properties.TotalTaxes.toLocaleString("en-US", {style:"currency", currency:"USD"})} <br>
-      Taxes per square ft: ${taxes_sq_ft} <br>
+      Taxes per acre: ${taxes_acre} <br>
       Property Use: ${parcels[0].properties.MostCommonPropertyUse} <br>
       Zoning: ${zoning[parcels[0].properties.MostCommonZoning1]} (${parcels[0].properties.MostCommonZoning1}) <br>
       Property Class: ${parcels[0].properties.MostCommonPropertyClass} <br>
