@@ -53,7 +53,8 @@ const zoning = {
     "HIST-UH": "University Heights Historic District",
     "HIST-MB": "Marquette Bungalows Historic District",
     "HIST-FS": "First Settlement Historic District"
-}
+};
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGF0YXJvY2tzIiwiYSI6ImNrem9ydW1udTYxd2oyd25reWg3anZxdDMifQ.Q7_-XKRFDIuuZBjVY3azfQ';
 const map = new mapboxgl.Map({
     container: 'map', // container ID
@@ -140,7 +141,7 @@ map.on("click", "choropleth-fill", e => {
         const taxes_acre = `${(parcels[0].properties.taxes_per_sq_foot * 43560).toLocaleString("en-US", {
             style: "currency",
             currency: "USD"
-        })}`
+        })}`;
 
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
