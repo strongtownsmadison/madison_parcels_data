@@ -152,6 +152,7 @@
 
             // If bbox exists. use this value as the argument for `queryRenderedFeatures`
             if (bbox) {
+                total_taxes = null
                 const features = map.queryRenderedFeatures(bbox, {
                     layers: ['parcels']
                 });
