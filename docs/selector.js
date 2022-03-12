@@ -2,6 +2,7 @@
 	mapboxgl.accessToken = 'pk.eyJ1IjoiZGF0YXJvY2tzIiwiYSI6ImNremtvNDkzaTIwcDYydm4yamF0amFiMmIifQ.F1rByZHul7dtdyK1jmtWsg';
 
   var total_taxes = null;
+  var total_lot_size = null;
 
     const map = new mapboxgl.Map({
         container: 'map',
@@ -152,7 +153,8 @@
 
             // If bbox exists. use this value as the argument for `queryRenderedFeatures`
             if (bbox) {
-                total_taxes = null
+                total_taxes = null;
+                total_lot_size = null;
                 const features = map.queryRenderedFeatures(bbox, {
                     layers: ['parcels']
                 });
@@ -162,12 +164,14 @@
                 }
 
                 // Run through the selected features and set a filter
-                // to match features with unique FIPS codes to activate
-                // the `counties-highlighted` layer.
+                // to match features with unique XRefParcel ids to activate
+                // the `parcels-highlighted` layer.
                 const xrefparcels = features.map((feature) => feature.properties.XRefParcel);
                 map.setFilter('parcels-highlighted', ['in', 'XRefParcel', ...xrefparcels]);
                 const netTaxes_array = features.map((feature) => feature.properties.NetTaxes);
+                const lotSize_array = features.map((feature) => feature.properties.LotSize);
                 total_taxes = netTaxes_array.reduce((partialSum, a) => partialSum + a, 0);
+                total_lot_size = lotSize_array.reduce((partialSum, a) => partialSum + a, 0);
                 console.log(total_taxes);
             }
 
@@ -189,7 +193,8 @@
 
             popup
                 .setLngLat(e.lngLat)
-                .setText('Total taxes paid in the highlighted area: ' + total_taxes.toLocaleString("en-US", {style: "currency", currency: "USD"}) )
+                .setHTML(`Total taxes paid in the highlighted area: ${total_taxes.toLocaleString("en-US", {style: "currency", currency: "USD"})}
+                     <br> Total Lot Size: ${(total_lot_size/43560).toLocaleString("en-US")} acres`)
                 .addTo(map);
         });
     })
