@@ -52,7 +52,7 @@
                'id': 'parcels',
              'type': 'fill',
                'source': 'parcels',
-               'source-layer': 'madison_taxes_per_sq_foot-dbsyyj',
+               'source-layer': 'madison_taxes_per_sq_foot-202-49w0dd',
                'paint': {
                    'fill-outline-color': 'rgba(0,0,0,0.1)',
                    'fill-color': 'rgba(0,0,0,0.1)'
