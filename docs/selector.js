@@ -44,7 +44,7 @@
         // }
        map.addSource('parcels', {
            'type': 'vector',
-           'url': 'mapbox://datarocks.5xsnpci8'
+           'url': 'mapbox://datarocks.3j9rj47w'
        });
 
        map.addLayer(
